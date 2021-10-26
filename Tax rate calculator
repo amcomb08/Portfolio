@@ -1,0 +1,131 @@
+// This application calculates the marginal tax rate
+// for various candidates' tax plans.
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Prog3
+{
+    public partial class Prog3Form : Form
+    {
+        public Prog3Form()
+        {
+            InitializeComponent();
+        }
+
+        // User has clicked the Calculate Tax button
+        // Will calculate and display their marginal tax rate
+        private void calcTaxBtn_Click(object sender, EventArgs e)
+        {
+            // The marginal tax rates
+            // Baseline
+            decimal[] baseRates = { .10m, .12m, .22m, .24m, .32m, .35m, .37m };
+            // Candidate 2
+            decimal[] c2Rates = { .10m, .12m, .22m, .24m, .32m, .35m, .40m, .45m, .50m, .52m };
+            // Taxable income thresholds for each candidate
+            // Baseline
+            int[] baseThreshs = { 9_700, 39_475, 84_200, 160_725, 204_100, 510_300 };
+            // Candidate 2
+            int[] c2Threshs = { 9_525, 38_700, 82_500, 157_500, 200_000, 250_000, 500_000, 2_000_000, 10_000_000 };
+
+            int income; // Filer's taxable income (input)
+            int baseIndex = baseRates.Length - 1; //Index for baseline rates
+            int c2Index = c2Rates.Length - 1; //Index for Candidate 2 rates
+            int baseThreshIndex = baseThreshs.Length - 1; //Index for base thresholds 
+            int c2ThreshIndex = c2Threshs.Length - 1; //Index for Candidate 2 thresholds
+
+            // Income rates that apply to this filer
+            decimal[] rates = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };  // Tax rate 1
+
+            // Income threshold values that apply to this filer
+            int[] thresholds = {int.MaxValue, int.MaxValue , int.MaxValue , int.MaxValue , int.MaxValue , int.MaxValue , int.MaxValue , int.MaxValue , int.MaxValue }; // 1st income threshold
+
+            decimal marginalRate; // Filer's calculated marginal tax rate
+
+            if (int.TryParse(incomeTxt.Text, out income) && income >= 0)
+            {
+                // Which rates/thresholds apply to this filer?
+                if (baselineRdoBtn.Checked) // Baseline?
+                {
+                    while (baseIndex >= 0) //Steps through base rates array and assigns a value to each rate
+                    {
+                        rates[baseIndex] = baseRates[baseIndex];
+                        --baseIndex;
+                    }
+                    while (baseThreshIndex >= 0) //Steps through base thresholds array and assigns value 
+                    {
+                        thresholds[baseThreshIndex] = baseThreshs[baseThreshIndex];
+                        --baseThreshIndex;
+                    }
+                }
+                else // Must be Candidate 2
+                {
+                    while (c2Index >= 0) //steps through can. 2 rates array and assigns value
+                    {
+                        rates[c2Index] = c2Rates[c2Index];
+                        --c2Index;
+                    }
+                    while (c2ThreshIndex >= 0) //steps through can. 2 thresholds and assigns value
+                    {
+                        thresholds[c2ThreshIndex] = c2Threshs[c2ThreshIndex];
+                        --c2ThreshIndex;
+                    }
+                }
+              
+                // Calculate income tax due and find their marginal rate
+                if (income > thresholds[8])
+                {
+                    marginalRate = rates[9];
+                }
+                else if (income > thresholds[7])
+                {
+                    marginalRate = rates[8];
+                }
+                else if (income > thresholds[6])
+                {
+                    marginalRate = rates[7];
+                }
+                else if (income > thresholds[5])
+                {
+                    marginalRate = rates[6];
+                }
+                else if (income > thresholds[4])
+                {
+                    marginalRate = rates[5];
+                }
+                else if (income > thresholds[3])
+                {
+                    marginalRate = rates[4];
+                }
+                else if (income > thresholds[2])
+                {
+                    marginalRate = rates[3];
+                }
+                else if (income > thresholds[1])
+                {
+                    marginalRate = rates[2];
+                }
+                else if (income > thresholds[0])
+                {
+                    marginalRate = rates[1];
+                }
+                else
+                {
+                    marginalRate = rates[0];
+                }
+
+                // Output results
+                marginalRateOutLbl.Text = $"{marginalRate:P1}";
+            }
+            else // Invalid input
+                MessageBox.Show("Enter valid income!");
+        }
+    }
+}
