@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Console;
+
+namespace CommodityApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double currentValue;   // Current commodity's value
+            double totalValue = 0; // Running total of commodity's value
+            CommodityItem[] items; // Commodity Items
+
+            // #1 - Put code here to construct 3  commodity items: Toilet Paper, Hand Sanitizer, Disinfection Wipes as directed
+            CommodityItem item1 = new CommodityItem("Toilet Paper", "TP4209", 2000, 5.99); //Toilet Paper
+            CommodityItem item2 = new CommodityItem("Hand Sanitizer", "HS3419", 4000, 1.99);//Hand Sanitizer
+            CommodityItem item3 = new CommodityItem("Disinfection Wipes", "DW7801", 5000, 1.30); //Disinfection Wipes
+
+            items = new CommodityItem[] { item1, item2, item3 };
+
+            WriteLine($"Commodity Revenue Report:");
+
+            // #2 - Complete loop to step through array of items
+            for (int index = 0; index < items.Length ; ++index)
+            {
+
+                currentValue = items[index].CalcValue();// #3 - Complete statement to calculate value of current item
+                                                        //      from array by calling CalcValue
+
+                totalValue += currentValue; // #4 - Add currentValue into running total
+
+                // #5 - Output currentValue, with currency formatting, followed by string representation
+                //      of current item from array
+                WriteLine(items[index]);
+                WriteLine($"Current value: {currentValue:C}");
+            }
+
+            WriteLine($"\nTotal Gross Revenue:{totalValue:C}");
+            // #6 - Output totalValue of Gross Revenue, with currency formatting
+           
+        }
+    }
+}
