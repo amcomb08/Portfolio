@@ -1,0 +1,53 @@
+//Gives user price estimates of specified room measurements
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Console;
+
+namespace Program_1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            const double CONVERT_SQ_YRDS = 9, WASTE = .10, PADDING_RATE = 2.50, FIRST_ROOM_LABOR_RATE = 75.00, LABOR_RATE = 4.25 ; // All Constant variables of the needed formulas 
+            double RoomWidth, RoomLength, CarpetPrice; // The entered room length, Width, and Carpet price of the user
+            double SqYards, CarpetCost,PaddingCost, LaborCost, TotalCost; // End Totals 
+            double CarpetCostWaste, PaddingCostWaste; // The waste Cost added to both Carpet and Padding
+            int PaddingLayers, FirstRoom; // Used to ask user info about padding layers and if it is the first room
+
+            WriteLine("Welcome to the Handy-Dandy Carpet Estimator");
+            WriteLine("");// Blank Line for space
+            Write("Enter the max width of room (in feet): ");
+            RoomWidth = double.Parse(ReadLine());
+            Write("Enter the max length of room (in feet): ");
+            RoomLength = double.Parse(ReadLine());
+            Write("Enter the carpet price (per sq. yard): ");
+            CarpetPrice = double.Parse(ReadLine());
+            Write("Enter layers of padding to use (1 or 2): ");
+            PaddingLayers = int.Parse(ReadLine());
+            Write("Is this the first room? (1 = Yes, 0 = No): ");
+            FirstRoom = int.Parse(ReadLine());
+            //Converts string user enters into double and int types for conversion
+
+            SqYards = (RoomWidth * RoomLength) / CONVERT_SQ_YRDS;
+            CarpetCostWaste = (SqYards * CarpetPrice)* WASTE;
+            CarpetCost = (SqYards * CarpetPrice) + CarpetCostWaste;
+            PaddingCostWaste = ((PADDING_RATE*PaddingLayers)*SqYards) * WASTE;
+            PaddingCost = ((PADDING_RATE * PaddingLayers) * SqYards) + PaddingCostWaste;
+            LaborCost = (SqYards * LABOR_RATE) + (FIRST_ROOM_LABOR_RATE * FirstRoom);
+            TotalCost = LaborCost + PaddingCost + CarpetCost;
+            //Formulas find end totals of all cost and total yards
+
+            WriteLine($"Sq. Yards Needed: {SqYards:F1}");
+            WriteLine($"Carpet Cost: {CarpetCost:C}");
+            WriteLine($"Padding Cost: {PaddingCost:C}");
+            WriteLine($"Labor Cost: {LaborCost:C}");
+            WriteLine($"Total Cost: {TotalCost:C};");
+            //Displays the end results to the user
+
+        }
+    }
+}
