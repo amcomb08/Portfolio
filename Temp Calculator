@@ -1,0 +1,63 @@
+//This program takes all of the valid temperatures a user enters and displays the mean of those temperatures and how many valid temps they entered
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Console;
+
+namespace Lab5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            double totalTemps = 0; //running total of total temps the user has entered 
+            double sumOfTemps = 0; //Adds up the valid temps user has entered 
+            const double LOW_TEMP_LIMIT = -20; //Constant for the lowest temp allowed 
+            const double HIGH_TEMP_LIMIT = 130; //Constant for the higheset temp allowed
+            double temperature; //User entered temp
+            double meanTemp; //Mean of temps
+            const double stopCount = 999; //sentinel value to stop the loop
+            bool ValidTemp; //Test to see if temp is valid 
+
+            WriteLine($"Enter temperatures from {LOW_TEMP_LIMIT} to {HIGH_TEMP_LIMIT} (999 to stop)");
+            Write("Enter temerature: ");
+            ValidTemp = double.TryParse(ReadLine(), out temperature);
+            if(temperature != stopCount) //test to see if the first value entered was not the stop count. If not it adds value to total temps and sum
+            { 
+              ++totalTemps;
+              sumOfTemps += temperature;
+            }
+
+            while (temperature != stopCount) //Loops until user enters sentinel value
+            {
+                if (temperature < LOW_TEMP_LIMIT || temperature > HIGH_TEMP_LIMIT || !ValidTemp) //Test to see if temp is valid
+                {
+                    WriteLine("Valid temperatures range from -20 to 130. Please reenter temperature");
+                    Write("Enter temerature: ");
+                    ValidTemp = double.TryParse(ReadLine(), out temperature);
+                }
+                else if (temperature >= LOW_TEMP_LIMIT && temperature <= HIGH_TEMP_LIMIT && ValidTemp) //when valid prompts the user to enter another value
+                {
+                    Write("Enter temperature: "); 
+                    ValidTemp = double.TryParse(ReadLine(), out temperature);
+                    if (temperature != stopCount) //When a temp is valid it is entered to running totals
+                    { 
+                    ++totalTemps;
+                    sumOfTemps += temperature;
+                    }
+                }
+                
+                    
+            }
+
+            
+            meanTemp = sumOfTemps / totalTemps; //Formuls for mean temp
+
+            WriteLine($"You entered {totalTemps} valid temps.");
+            WriteLine($"The mean temperature is {meanTemp:F1}.");
+           
+        }
+    }
+}
