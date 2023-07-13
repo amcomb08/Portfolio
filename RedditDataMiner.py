@@ -4,9 +4,9 @@ from textblob import TextBlob
 import matplotlib.pyplot as plt
 
 ########### Replace these values with your own to connect to reddit API ##################
-client_id = "kpKjhPzJAk39N7qjlF4-3Q"
-client_secret = "fl-7akBW8UML9g13tx1N8rCIZQy_Hw"
-user_agent = "MSW:CSE532Anthony:v0.1.0 (by u/ShiftedCube)"
+client_id = ""
+client_secret = ""
+user_agent = ""
 
 reddit = praw.Reddit(
     client_id=client_id,
