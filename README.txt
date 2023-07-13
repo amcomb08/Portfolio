@@ -1,1 +1,0 @@
-The way this script works is by looking for a folder which contains all of the text files that will be used. This folder should be called "TextDocuments" and placed inside the working directory of the script. It should output an error message that states where this folder should be placed in the case it does not read properly. 
